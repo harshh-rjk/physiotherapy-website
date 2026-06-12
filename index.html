@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. LALA LAJPAT RAI MEHRA NEUROTHERAPY CENTRE</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Poppins,sans-serif;background:#f5f9fc;color:#222}
+header{background:linear-gradient(135deg,#0b6e99,#0f8fc5);color:#fff;padding:30px 20px;text-align:center}
+header h1{font-size:2rem}
+header p{margin-top:8px}
+.container{max-width:1200px;margin:auto;padding:20px}
+.filters{text-align:center;margin:20px 0}
+.filters button{padding:10px 15px;border:none;border-radius:20px;margin:5px;cursor:pointer;background:#dbeef7}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.08);transition:.3s}
+.card:hover{transform:translateY(-4px)}
+.card img{width:100%;height:180px;object-fit:cover}
+.card-content{padding:15px}
+.price{color:#0b6e99;font-weight:700;margin:8px 0}
+.btn{background:#0b6e99;color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;width:100%}
+.cart-btn{position:fixed;bottom:20px;right:20px;background:#0b6e99;color:#fff;border:none;padding:15px;border-radius:50%;font-size:20px;cursor:pointer}
+.badge{background:red;color:#fff;border-radius:50%;padding:2px 7px;font-size:12px;position:absolute;margin-left:-5px}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);justify-content:center;align-items:center;padding:15px}
+.modal-content{background:#fff;width:100%;max-width:650px;max-height:90vh;overflow:auto;padding:20px;border-radius:12px}
+.item{display:flex;justify-content:space-between;margin:10px 0}
+.qty button{padding:2px 8px}
+form input,form textarea{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:8px}
+.whatsapp{position:fixed;left:20px;bottom:20px;background:#25D366;color:#fff;padding:14px 18px;border-radius:30px;text-decoration:none}
+footer{text-align:center;padding:20px;color:#555}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Dr. LALA LAJPAT RAI MEHRA NEUROTHERAPY CENTRE</h1>
+<p>Restoring Movement, Relieving Pain, Improving Lives</p>
+<p>E7/66, Arera Colony, Near 12 No. Bus Stop, Bhopal</p>
+<p>📞 9425675733 | 9098675733</p>
+</header>
+
+<div class="container">
+<h2 style="text-align:center">Our Services</h2>
+
+<div class="filters">
+<button onclick="filterCat('All')">All</button>
+<button onclick="filterCat('Neurotherapy')">Neurotherapy</button>
+<button onclick="filterCat('Pain')">Pain Relief</button>
+<button onclick="filterCat('Rehab')">Rehabilitation</button>
+</div>
+
+<div class="grid" id="services"></div>
+</div>
+
+<button class="cart-btn" onclick="openCart()">📅 <span id="count" class="badge">0</span></button>
+
+<div class="modal" id="cartModal">
+<div class="modal-content">
+<h2>Appointment Cart</h2>
+<div id="cartItems"></div>
+<h3 id="total"></h3>
+
+<form id="bookingForm" action="https://formspree.io/f/mjgdpgao" method="POST">
+<input type="text" name="customer_name" placeholder="Your Name" required>
+<input type="tel" name="phone" placeholder="Phone Number" required>
+<textarea name="address" placeholder="Address" required></textarea>
+<textarea name="instructions" placeholder="Special Instructions"></textarea>
+<input type="hidden" name="appointment_summary" id="summaryField">
+<button class="btn" type="submit">Book Appointment</button>
+</form>
+
+<br>
+<button class="btn" onclick="closeCart()">Close</button>
+</div>
+</div>
+
+<a class="whatsapp" href="https://wa.me/919425675733" target="_blank">WhatsApp</a>
+
+<footer>
+<p>© 2026 Dr. LALA LAJPAT RAI MEHRA NEUROTHERAPY CENTRE</p>
+<p>Email: ashishr032@gmail.com</p>
+</footer>
+
+<script>
+const services=[
+{name:"Neurotherapy Consultation",price:500,cat:"Neurotherapy",img:"https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800"},
+{name:"Back Pain Therapy",price:800,cat:"Pain",img:"https://images.unsplash.com/photo-1584515933487-779824d29309?w=800"},
+{name:"Sciatica Treatment",price:900,cat:"Pain",img:"https://images.unsplash.com/photo-1516549655169-df83a0774514?w=800"},
+{name:"Paralysis Rehabilitation",price:1500,cat:"Rehab",img:"https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800"},
+{name:"Cervical Pain Therapy",price:700,cat:"Pain",img:"https://images.unsplash.com/photo-1580281657527-47f249e8f4df?w=800"},
+{name:"Knee Pain Therapy",price:700,cat:"Pain",img:"https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?w=800"},
+{name:"Frozen Shoulder Therapy",price:850,cat:"Pain",img:"https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=800"},
+{name:"Post-Stroke Rehabilitation",price:1400,cat:"Rehab",img:"https://images.unsplash.com/photo-1581595219315-a187dd40c322?w=800"},
+{name:"Home Visit Consultation",price:1200,cat:"Rehab",img:"https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800"},
+{name:"Migraine Therapy",price:600,cat:"Neurotherapy",img:"https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=800"}
+];
+
+let cart=JSON.parse(localStorage.getItem("cart")||"[]");
+
+function render(cat="All"){
+let wrap=document.getElementById("services");
+wrap.innerHTML="";
+services.filter(x=>cat==="All"||x.cat===cat).forEach((s,i)=>{
+wrap.innerHTML+=`<div class="card">
+<img loading="lazy" src="${s.img}" alt="${s.name}">
+<div class="card-content">
+<h3>${s.name}</h3>
+<p>${s.cat}</p>
+<div class="price">₹${s.price}</div>
+<button class="btn" onclick="add(${i})">Book Slot</button>
+</div></div>`;
+});
+}
+function filterCat(c){render(c)}
+function save(){localStorage.setItem("cart",JSON.stringify(cart));document.getElementById("count").textContent=cart.reduce((a,b)=>a+b.qty,0)}
+function add(i){
+let item=services[i];
+let f=cart.find(x=>x.name===item.name);
+if(f)f.qty++; else cart.push({...item,qty:1});
+save();
+}
+function openCart(){
+document.getElementById("cartModal").style.display="flex";
+let box=document.getElementById("cartItems");
+let total=0,summary="";
+box.innerHTML="";
+cart.forEach((c,i)=>{
+total+=c.price*c.qty;
+summary+=`${c.name} x ${c.qty} = ₹${c.price*c.qty}\n`;
+box.innerHTML+=`<div class=item>
+<span>${c.name}</span>
+<div class=qty>
+<button onclick="chg(${i},-1)">-</button>
+${c.qty}
+<button onclick="chg(${i},1)">+</button>
+</div></div>`;
+});
+document.getElementById("total").textContent="Estimated Total: ₹"+total;
+document.getElementById("summaryField").value=summary+"\nTotal: ₹"+total;
+}
+function closeCart(){document.getElementById("cartModal").style.display="none"}
+function chg(i,v){
+cart[i].qty+=v;
+if(cart[i].qty<=0)cart.splice(i,1);
+save();openCart();
+}
+document.getElementById("bookingForm").addEventListener("submit",()=>{
+localStorage.removeItem("cart");
+alert("Appointment request submitted! We will contact you on WhatsApp.");
+});
+render();save();
+</script>
+</body>
+</html>
